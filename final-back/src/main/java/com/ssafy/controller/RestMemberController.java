@@ -111,6 +111,7 @@ public class RestMemberController {
     @GetMapping("/{userId}")
     public ResponseEntity<MemberDto> GetUser(@PathVariable String userId) throws SQLException {
         MemberDto member = service.findMember(userId);
+        log.debug("member dto 조회 = {}", member);
         return new ResponseEntity<MemberDto>(member, HttpStatus.OK);
     }
 
