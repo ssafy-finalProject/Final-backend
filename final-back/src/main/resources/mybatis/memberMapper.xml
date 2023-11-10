@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.member.repository.MemberRepository">
+  
+  <insert id="registerMember" parameterType="memdto">
+  	insert into member(userId, userName, userPass)
+  	values(#{userId},#{userName},#{userPass})
+  </insert>
+  <update id="modifyMember" parameterType="memdto">
+  	 update member set username = #{userName}, userPass = #{userPass}
+  		 where userId = #{userId}
+  </update>
+  <select id="login" parameterType="memdto" resultType="memdto">
+  	select userId, userPass, userName
+  		from member
+  		where userId = #{userId}
+  		and userPass = #{userPass}
+  </select>
+  <delete id="deleteMember" parameterType="memdto" >
+  	delete from member where userId = #{userId}
+  </delete>
+  
+  <select id="idCheck" parameterType="String" resultType="int">
+  	select count(userId)
+  		from member
+  		where userId = #{userId}
+  </select>
+  <select id="findPwd" resultType="memdto" parameterType="memdto">
+  	select userId, userPass, userName
+  	from member
+  	where userPass = #{userPass}
+  </select>
+  <select id="findMember" resultType="memdto" parameterType="String">
+  	select userId, userPass, userName
+  	from member
+  	where userId = #{userId}
+  </select>
+  
+  <select id="dynamictest1" parameterType="map" resultType="memdto">
+  	select id, pw , name, age, addr 
+  		from members 
+  	<where> 
+  		${col} = #{data}
+  	</where>	
+  </select>
+</mapper>
