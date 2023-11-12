@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-  <typeAliases>
-  	<typeAlias type="com.ssafy.member.MemberDto" alias="memdto"/>
-  	<typeAlias type="com.ssafy.board.BoardDto" alias="boardDto"/>
-  	<typeAlias type="com.ssafy.member.MemberDto" alias="memdto"/>
-  	<typeAlias type="com.ssafy.enjoytrip.dto.AttractionDescriptionDto" alias="attdesdto"/>
-  	<typeAlias type="com.ssafy.enjoytrip.dto.AttractionDetailDto" alias="attdetaildto"/>
-  	<typeAlias type="com.ssafy.enjoytrip.dto.AttractionInfoDto" alias="attinfodto"/>
-  	<typeAlias type="com.ssafy.enjoytrip.dto.GugunDto" alias="gugundto"/>
-  	<typeAlias type="com.ssafy.enjoytrip.dto.SidoDto" alias="sidodto"/>
-  </typeAliases>
-  
-  <mappers>
-  	<mapper resource="mybatis/boardMapper.xml"/>
-    <mapper resource="mybatis/memberMapper.xml"/>
-    <mapper resource="mybatis/attractionMapper.xml"/>
-  </mappers>
+    <typeAliases>
+        <typeAlias type="com.ssafy.member.MemberDto" alias="memdto"/>
+        <typeAlias type="com.ssafy.board.BoardDto" alias="boardDto"/>
+        <typeAlias type="com.ssafy.member.MemberDto" alias="memdto"/>
+        <typeAlias type="com.ssafy.comment.dto.CommentDto" alias="comdto"/>
+        <typeAlias type="com.ssafy.enjoytrip.dto.AttractionDescriptionDto" alias="attdesdto"/>
+        <typeAlias type="com.ssafy.enjoytrip.dto.AttractionDetailDto" alias="attdetaildto"/>
+        <typeAlias type="com.ssafy.enjoytrip.dto.AttractionInfoDto" alias="attinfodto"/>
+        <typeAlias type="com.ssafy.enjoytrip.dto.GugunDto" alias="gugundto"/>
+        <typeAlias type="com.ssafy.enjoytrip.dto.SidoDto" alias="sidodto"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="mybatis/boardMapper.xml"/>
+        <mapper resource="mybatis/memberMapper.xml"/>
+        <mapper resource="mybatis/attractionMapper.xml"/>
+    </mappers>
 </configuration>

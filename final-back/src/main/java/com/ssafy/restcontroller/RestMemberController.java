@@ -1,4 +1,4 @@
-package com.ssafy.controller;
+package com.ssafy.restcontroller;
 
 import java.sql.SQLException;
 import java.util.HashMap;

@@ -12,6 +12,6 @@ public interface CommentService {
 	void updateComment(CommentDto comment) throws SQLException;
 	void deleteComment(int commentId) throws SQLException;
 	void addComment(CommentDto comment) throws SQLException;
-	List<CommentDto> getAllComments(Map<String, Object> param) throws SQLException;
-	int getTotalCommentCount(Map<String, Object> param) throws SQLException;
+//	List<CommentDto> getAllComments(Map<String, Object> param) throws SQLException;
+//	int getTotalCommentCount(Map<String, Object> param) throws SQLException;
 }

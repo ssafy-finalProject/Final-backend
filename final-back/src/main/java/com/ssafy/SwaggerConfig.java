@@ -29,7 +29,7 @@ public class SwaggerConfig {
         		.consumes(getConsumeContentTypes())
         		.produces(getProduceContentTypes())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ssafy.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.restcontroller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
