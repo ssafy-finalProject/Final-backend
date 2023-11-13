@@ -11,10 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.enjoytrip.dto.AttractionInfoDto;
 import com.ssafy.enjoytrip.dto.GugunDto;
@@ -24,8 +26,8 @@ import com.ssafy.enjoytrip.service.attractionServiceImpl;
 
 //import lombok.extern.slf4j.Slf4j;
 
-
-@Controller
+@CrossOrigin(origins = {"*"},  maxAge = 6000)
+@RestController
 @RequestMapping("/att")
 //@Slf4j 
 public class attractionController {

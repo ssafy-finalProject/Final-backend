@@ -29,9 +29,9 @@
   		where userId = #{userId}
   </select>
   <select id="findPwd" resultType="memdto" parameterType="memdto">
-  	select userId, userPass, userName, joinDate
+  	select userPass
   	from member
-  	where userPass = #{userPass}
+  	where userId = #{userId} and userName = #{userName}
   </select>
   <select id="findMember" resultType="memdto" parameterType="String">
   	select userId, userPass, userName, joinDate

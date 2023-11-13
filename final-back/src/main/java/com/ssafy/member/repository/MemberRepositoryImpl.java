@@ -54,6 +54,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 	@Override
 	public MemberDto findPwd(MemberDto memberDto) throws SQLException {
 		MemberDto dto = session.selectOne(ns +"findPwd", memberDto);
+		System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ"+dto.getUserPass());
 		return dto;
 	}
 	
