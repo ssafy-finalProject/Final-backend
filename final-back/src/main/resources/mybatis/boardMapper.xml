@@ -19,8 +19,8 @@
 	</resultMap>
 
 	<insert id="writeArticle" parameterType="boardDto">
-		insert into board (article_no, user_id, subject, content, hit, register_time)
-		values (#{article_no}, #{user_id}, #{subject}, #{content}, #{hit}, now())
+		insert into board (user_id, subject, content, hit, register_time)
+		values (#{user_id}, #{subject}, #{content}, 0, now())
 	</insert>
 	
 	<sql id="search">
