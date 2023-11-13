@@ -39,10 +39,9 @@ public class attractionController {
 	}
 
 	@GetMapping("/newpage")
-	public String mvAtt(HttpServletRequest request, Model model) {
+	public ResponseEntity<List<SidoDto>> mvAtt(HttpServletRequest request, Model model) {
 		List<SidoDto> list = service.getSido();
-		model.addAttribute("sidoList", list);
-		return "newpage";
+		return new ResponseEntity<List<SidoDto>>(list, HttpStatus.OK);
 	}
 	
 	@GetMapping("/getGugun/{code}")
