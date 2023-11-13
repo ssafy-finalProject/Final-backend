@@ -44,9 +44,9 @@ public class boardController {
 	    if (memberDto != null) {
 	        try { 
 	            PageNavigation pageNavigation;
-	            List<BoardDto> list = boardService.listArticle(map);
+//	            List<BoardDto> list = boardService.listArticle(map);
 	            pageNavigation = boardService.makePageNavigation(map);
-	            mav.addObject("articles", list);
+//	            mav.addObject("articles", list);
 	            mav.addObject("navigation", pageNavigation);
 	            mav.addObject("pgno", map.get("pgno"));
 	            mav.addObject("key", map.get("key"));
