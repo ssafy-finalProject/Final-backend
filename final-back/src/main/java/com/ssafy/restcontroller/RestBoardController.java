@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = {"*"}, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.POST}, maxAge = 6000)
+@CrossOrigin(origins = {"*"})
 @RestController
 @Slf4j
 @RequestMapping("/board")
@@ -95,6 +94,25 @@ public class RestBoardController {
         } catch (Exception e) {
             return exceptionHandling(e);
         }
+    }
+
+//    @ApiOperation(value = "수정 할 글 얻기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = BoardDto.class)
+//    @GetMapping("/modify/{articleno}")
+//    public ResponseEntity<BoardDto> getModifyArticle(
+//            @PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno)
+//            throws Exception {
+//        log.info("getModifyArticle - 호출 : " + articleno);
+//        return new ResponseEntity<>(boardService.getArticle(articleno), HttpStatus.OK);
+//    }
+
+    @ApiOperation(value = "게시글 수정하기" , notes = "게시글을 수정한다. 다만, article_no와 user_id는 변경되면 안된다.")
+    @PutMapping("/{}")
+    public ResponseEntity<?> modifyArticle(@RequestBody @ApiParam(value = "수정할 게시글 정보 입력", required = true)
+                                                    BoardDto boardDto) throws Exception {
+            log.debug("modify article = {}", boardDto);
+            boardService.modifyArticle(boardDto);
+            return ResponseEntity.ok("수정 완료");
+//        return new ResponseEntity<>(boardDto, HttpStatus.OK);
     }
 
     @ApiOperation(value = "게시글 삭제", notes = "게시글 삭제를 진행한다.")

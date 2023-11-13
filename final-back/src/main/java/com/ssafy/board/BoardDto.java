@@ -4,14 +4,11 @@ import java.util.List;
 
 import com.ssafy.comment.dto.CommentDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class BoardDto {
 	private int article_no;
 	private String user_id;
@@ -19,5 +16,5 @@ public class BoardDto {
 	private String content;
 	private int hit;
 	private String register_time;
-	private List<CommentDto> comments;
+//	private List<CommentDto> comments;
 }

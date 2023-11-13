@@ -59,7 +59,7 @@
 		</where>
 	</select>
 	
-	<select id="getArticle" parameterType="int" resultMap="viewArticle">
+	<select id="getArticle" parameterType="int" resultType="boardDto">
 		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, m.userName
 		from board b, member m
 		where b.user_id = m.userId
@@ -80,7 +80,7 @@
 	
 	<update id="modifyArticle" parameterType="boardDto">
 		update board
-		set subject = #{subject}, content = #{content}
+		set subject = #{subject}, content = #{content}, register_time = now()
 		where article_no = #{article_no}
 	</update>
 	
