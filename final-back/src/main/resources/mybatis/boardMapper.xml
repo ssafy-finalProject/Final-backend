@@ -52,8 +52,8 @@
 	</select>
 	
 	<select id="getTotalArticleCount" parameterType="map" resultType="int">
-		select count(article_no)
-		from board
+		select count(b.article_no)
+		from board b
 		<where>
 			<include refid="search"></include>
 		</where>
