@@ -31,7 +31,7 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public List<BoardDto> listArticle(Map<String, String> map) throws Exception {
+	public BoardListDto listArticle(Map<String, String> map) throws Exception {
 //		Map<String, Object> param = new HashMap<String, Object>();
 //		param.put("word", map.get("word") == null ? "" : map.get("word"));
 //		int currentPage = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
@@ -66,21 +66,30 @@ public class boardServiceImpl implements boardService {
 		param.put("word", map.get("word") == null ? "" : map.get("word"));
 		String word = map.get("word");
 		System.out.println("word = " + word);
-		int pgNo = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
-		System.out.println(map.get("pgno"));
-//		System.out.println(pgNo);
-		int start = pgNo * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
+		int currentPage = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno")); // 현재 페이지는 param으로 1을 보냄
+		int sizePerPage = SizeConstant.LIST_SIZE; // 현재 페이지 사이즈는 20으로 고정함.
+		System.out.println("currentPage = " + currentPage); // 현재 페이지를 출력
+		System.out.println("sizePerPage = " + sizePerPage); // 사이즈별 페이지를 출력한다. 고정 20 출력
+
+		int start =  currentPage * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE; // 시작 페이지 설정
 		param.put("start", start);
 		System.out.println("start = " + start);
 		param.put("listsize", SizeConstant.LIST_SIZE);
 		System.out.println("listsize = " + param.get("listsize"));
 
 		List<BoardDto> listArticle = session.getMapper(BoardRepository.class).listArticle(param);
-
+		int totalArticleCount = session.getMapper(BoardRepository.class).getTotalArticleCount(param); // 전체 게시글을 계산
+		int totalPageCount = (totalArticleCount - 1) / sizePerPage + 1; // 전체 페이지를 계산
+		BoardListDto boardListDto = new BoardListDto(); // boardListDto에 list와 현재 페이지, 전체 페이지를 생성해준다.
+		boardListDto.setArticles(listArticle);
+		boardListDto.setCurrentPage(currentPage);
+		boardListDto.setTotalPageCount(totalPageCount);
 		System.out.println("test");
 		System.out.println("listArticle " + listArticle );
 		System.out.println("param : " + param);
-		return listArticle;
+		System.out.println("boardListDto = " + boardListDto);
+//		return listArticle;
+		return boardListDto;
 	}
 
 	@Override

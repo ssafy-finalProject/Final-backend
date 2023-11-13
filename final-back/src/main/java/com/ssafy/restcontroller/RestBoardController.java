@@ -1,6 +1,7 @@
 package com.ssafy.restcontroller;
 
 import com.ssafy.board.BoardDto;
+import com.ssafy.board.BoardListDto;
 import com.ssafy.board.service.boardService;
 import com.ssafy.comment.service.CommentService;
 import io.swagger.annotations.Api;
@@ -61,7 +62,8 @@ public class RestBoardController {
             map.put("pgno", pgno);
 
             log.debug("map = {}", map);
-            List<BoardDto> list = boardService.listArticle(map);
+//            List<BoardDto> list = boardService.listArticle(map);
+            BoardListDto list = boardService.listArticle(map);
             log.debug("list의 값은 = {}", list);
 
             HttpHeaders header = new HttpHeaders();

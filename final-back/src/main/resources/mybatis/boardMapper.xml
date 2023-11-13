@@ -35,8 +35,8 @@
 	</sql>
 
 	<select id="listArticle" parameterType="map" resultMap="article">
-		select article_no, user_id, subject, content, hit, register_time
-		from board
+		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time
+		from board b
 		<where>
 			<if test="word != null and word != ''">
 				<if test="key == 'subject'">
@@ -52,15 +52,15 @@
 	</select>
 	
 	<select id="getTotalArticleCount" parameterType="map" resultType="int">
-		select count(article_no)
-		from board
+		select count(b.article_no)
+		from board b
 		<where>
 			<include refid="search"></include>
 		</where>
 	</select>
 	
 	<select id="getArticle" parameterType="int" resultMap="viewArticle">
-		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, m.userName 
+		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, m.userName
 		from board b, member m
 		where b.user_id = m.userId
 		and b.article_no = #{article_no}
