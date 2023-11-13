@@ -52,14 +52,17 @@ public class RestBoardController {
     @GetMapping
     public ResponseEntity<?> getBoardList(
             @RequestParam(required = false) @ApiParam(value = "검색할 키", defaultValue = "subject") String key,
-            @RequestParam(required = false) @ApiParam(value = "검색어") String word) throws SQLException {
+            @RequestParam(required = false) @ApiParam(value = "검색어") String word,
+            @RequestParam(required = false) @ApiParam(value ="시작 페이지") String pgno) throws SQLException {
         try {
             Map<String, String> map = new HashMap<>();
             map.put("key", key);
             map.put("word", word);
+            map.put("pgno", pgno);
 
             log.debug("map = {}", map);
             List<BoardDto> list = boardService.listArticle(map);
+            log.debug("list의 값은 = {}", list);
 
             HttpHeaders header = new HttpHeaders();
             header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
