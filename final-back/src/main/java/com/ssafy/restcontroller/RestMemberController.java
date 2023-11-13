@@ -21,7 +21,7 @@ import com.ssafy.member.service.MemberService;
 
 import io.swagger.annotations.ApiOperation;
 
-@CrossOrigin(origins = {"*"}, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.POST}, maxAge = 6000)
+@CrossOrigin(origins = {"*"},  maxAge = 6000)
 @RestController
 @RequestMapping("/member")
 @Api("회원 관련 REST 테스트")
@@ -127,6 +127,17 @@ public class RestMemberController {
             return exceptionHandling(e);
         }
     }
+    
+    @ApiOperation(value = "회원 아이디로 비밀번호 조회", notes = "비밀번호 찾기 위함")
+    @GetMapping("/{userId}/{userName}")
+    public ResponseEntity<MemberDto> findPass(@PathVariable String userId, @PathVariable String userName) throws SQLException {
+    	MemberDto temp = new MemberDto();
+    	temp.setUserId(userId);
+    	temp.setUserName(userName);
+        MemberDto member = service.findPwd(temp);
+        return new ResponseEntity<MemberDto>(member, HttpStatus.OK);
+    }
+    
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
