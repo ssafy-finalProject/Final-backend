@@ -1,5 +1,6 @@
 package com.ssafy.board.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,12 @@ public class boardServiceImpl implements boardService {
 	@Override
 	public void writeArticle(BoardDto boardDto) throws Exception {
 		session.getMapper(BoardRepository.class).writeArticle(boardDto);
+	}
+
+	@Override
+	public List<BoardDto> totalList() throws SQLException {
+		List<BoardDto> boardList = session.getMapper(BoardRepository.class).totalList();
+		return boardList;
 	}
 
 	@Override

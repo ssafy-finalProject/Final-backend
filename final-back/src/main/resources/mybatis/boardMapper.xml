@@ -34,6 +34,11 @@
 		</if>
 	</sql>
 
+	<select id="totalList" resultType="boardDto">
+		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time
+		from board b
+	</select>
+	
 	<select id="listArticle" parameterType="map" resultMap="article">
 		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time
 		from board b
