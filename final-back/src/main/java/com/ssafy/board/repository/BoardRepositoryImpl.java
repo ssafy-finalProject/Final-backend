@@ -22,10 +22,17 @@ public class BoardRepositoryImpl implements BoardRepository {
 	}
 
 	String ns = "com.ssafy.board.repository.BoardRepository.";
+
 	@Override
 	public void writeArticle(BoardDto boardDto) throws SQLException {
 		// TODO Auto-generated method stub
 		session.insert(ns + "writeArticle", boardDto);
+	}
+
+	@Override
+	public List<BoardDto> totalList() throws SQLException {
+		List<BoardDto> list = session.selectList(ns + "totalList");
+		return list;
 	}
 
 	@Override

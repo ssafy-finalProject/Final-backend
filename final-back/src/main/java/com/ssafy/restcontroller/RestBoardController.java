@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = {"*"})
@@ -48,8 +50,16 @@ public class RestBoardController {
 //            return exceptionHandling(e);
 //        }
 //    }
-    @ApiOperation(value = "게시판 글 목록", notes = "모든 게시글을 반환한다.")
+
+    @ApiOperation(value = "게시판 초기 조회 목록", notes = "초기 실행 시에 모든 글을 반환한다.")
     @GetMapping
+    public ResponseEntity<List<BoardDto>> firstList() throws SQLException {
+        List<BoardDto> list = boardService.totalList();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "게시판 검색 조회 목록", notes = "검색 관련 게시글을 반환한다.")
+    @GetMapping("/list")
     public ResponseEntity<?> getBoardList(
             @RequestParam(required = false) @ApiParam(value = "검색할 키", defaultValue = "subject") String key,
             @RequestParam(required = false) @ApiParam(value = "검색어") String word,
@@ -112,6 +122,7 @@ public class RestBoardController {
             @PathVariable @ApiParam(value = "수정할 게시글 번호", required = true) int articleno,
             @RequestBody @ApiParam(value = "수정할 게시글 정보 입력", required = true)
             BoardDto boardDto) throws Exception {
+        boardDto.setArticle_no(articleno);
         boardService.modifyArticle(boardDto);
         BoardDto article = boardService.getArticle(articleno);
         log.debug("modify article = {}", article);

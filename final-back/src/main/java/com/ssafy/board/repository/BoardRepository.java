@@ -9,6 +9,7 @@ import com.ssafy.board.BoardDto;
 public interface BoardRepository {
 
 	void writeArticle(BoardDto boardDto) throws SQLException;
+	List<BoardDto> totalList() throws SQLException;
 	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
 	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
 	BoardDto getArticle(int articleNo) throws SQLException;
