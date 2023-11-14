@@ -53,7 +53,7 @@ public class RestBoardController {
     public ResponseEntity<?> getBoardList(
             @RequestParam(required = false) @ApiParam(value = "검색할 키", defaultValue = "subject") String key,
             @RequestParam(required = false) @ApiParam(value = "검색어") String word,
-            @RequestParam(required = false) @ApiParam(value ="시작 페이지") String pgno) throws SQLException {
+            @RequestParam(required = false) @ApiParam(value = "시작 페이지") String pgno) throws SQLException {
         try {
             Map<String, String> map = new HashMap<>();
             map.put("key", key);
@@ -85,8 +85,9 @@ public class RestBoardController {
     }
 
     @ApiOperation(value = "게시글 입력", notes = "게시글에 대한 정보를 입력한다.")
-    @PostMapping
-    public ResponseEntity<?> writeArticle(@RequestBody @ApiParam(value = "게시글 정보 입력", required = true) BoardDto boardDto) throws Exception {
+    @PostMapping("/{articleno}")
+    public ResponseEntity<?> writeArticle(
+            @RequestBody @ApiParam(value = "게시글 정보 입력", required = true) BoardDto boardDto) throws Exception {
         try {
             log.debug("write article= {}", boardDto);
             boardService.writeArticle(boardDto);
@@ -105,13 +106,16 @@ public class RestBoardController {
 //        return new ResponseEntity<>(boardService.getArticle(articleno), HttpStatus.OK);
 //    }
 
-    @ApiOperation(value = "게시글 수정하기" , notes = "게시글을 수정한다. 다만, article_no와 user_id는 변경되면 안된다.")
-    @PutMapping("/{}")
-    public ResponseEntity<?> modifyArticle(@RequestBody @ApiParam(value = "수정할 게시글 정보 입력", required = true)
-                                                    BoardDto boardDto) throws Exception {
-            log.debug("modify article = {}", boardDto);
-            boardService.modifyArticle(boardDto);
-            return ResponseEntity.ok("수정 완료");
+    @ApiOperation(value = "게시글 수정하기", notes = "게시글을 수정한다. 다만, article_no와 user_id는 변경되면 안된다.")
+    @PutMapping("/{articleno}")
+    public ResponseEntity<?> modifyArticle(
+            @PathVariable @ApiParam(value = "수정할 게시글 번호", required = true) int articleno,
+            @RequestBody @ApiParam(value = "수정할 게시글 정보 입력", required = true)
+            BoardDto boardDto) throws Exception {
+        boardService.modifyArticle(boardDto);
+        BoardDto article = boardService.getArticle(articleno);
+        log.debug("modify article = {}", article);
+        return ResponseEntity.ok("수정 완료");
 //        return new ResponseEntity<>(boardDto, HttpStatus.OK);
     }
 
