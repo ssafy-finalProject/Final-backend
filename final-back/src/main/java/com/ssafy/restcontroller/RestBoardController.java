@@ -95,7 +95,7 @@ public class RestBoardController {
     }
 
     @ApiOperation(value = "게시글 입력", notes = "게시글에 대한 정보를 입력한다.")
-    @PostMapping("/{articleno}")
+    @PostMapping
     public ResponseEntity<?> writeArticle(
             @RequestBody @ApiParam(value = "게시글 정보 입력", required = true) BoardDto boardDto) throws Exception {
         try {
