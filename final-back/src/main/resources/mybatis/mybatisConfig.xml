@@ -6,6 +6,7 @@
     <typeAliases>
         <typeAlias type="com.ssafy.member.MemberDto" alias="memdto"/>
         <typeAlias type="com.ssafy.board.BoardDto" alias="boardDto"/>
+        <typeAlias type="com.ssafy.detail.dto.DetailDto" alias="detailDto"/>
         <typeAlias type="com.ssafy.member.MemberDto" alias="memdto"/>
         <typeAlias type="com.ssafy.comment.dto.CommentDto" alias="comdto"/>
         <typeAlias type="com.ssafy.enjoytrip.dto.AttractionDescriptionDto" alias="attdesdto"/>
@@ -19,5 +20,6 @@
         <mapper resource="mybatis/boardMapper.xml"/>
         <mapper resource="mybatis/memberMapper.xml"/>
         <mapper resource="mybatis/attractionMapper.xml"/>
+        <mapper resource="mybatis/detailMapper.xml"/>
     </mappers>
 </configuration>
