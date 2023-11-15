@@ -1,4 +1,4 @@
-package com.ssafy.controller;
+package com.ssafy.restcontroller;
 
 import java.util.List;
 import java.util.Map;
