@@ -15,6 +15,7 @@
         <typeAlias type="com.ssafy.enjoytrip.dto.SidoDto" alias="sidodto"/>
         <typeAlias type="com.ssafy.calendar.CalendarDto" alias = "calendardto"/>
         <typeAlias type="com.ssafy.schedule.ScheduleDto" alias = "scheduledto"/>
+        <typeAlias type="com.ssafy.file.FileDto" alias = "fileDto"/>
     </typeAliases>
 
     <mappers>
@@ -23,5 +24,6 @@
         <mapper resource="mybatis/attractionMapper.xml"/>
         <mapper resource="mybatis/calendarMapper.xml"/>
         <mapper resource="mybatis/scheduleMapper.xml"/>
+        <mapper resource="mybatis/fileMapper.xml"/>
     </mappers>
 </configuration>
