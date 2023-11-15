@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.calendar.repository.CalendarRepository">
+	
+	<insert id="insertDate">
+		insert into calendar (calendar_id, article_no, year,month,day)
+		values (#{calendar_id}, #{article_no}, #{year},#{month}, #{day})
+	</insert>
+
+	
+	<select id="getDateInfo"  resultType="CalendarDto">
+		select b.calendar_id, b.article_no, b.year, b.month, b.day
+		from calendar b, board m
+		where b.article_no = m.article_no
+		and b.calendar_id = #{calendar_id}
+	</select>
+
+	<update id="modifyDateInfo">
+		update calendar
+		set year = #{year}, month = #{month}, day = #{day}
+		where calendar_id = #{calendar_id}
+	</update>
+	
+	<delete id="deleteDateInfo">
+		delete from calendar
+		where calendar_id = #{calendar_id}
+	</delete>
+
+</mapper>

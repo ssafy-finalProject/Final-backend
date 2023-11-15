@@ -13,11 +13,15 @@
         <typeAlias type="com.ssafy.enjoytrip.dto.AttractionInfoDto" alias="attinfodto"/>
         <typeAlias type="com.ssafy.enjoytrip.dto.GugunDto" alias="gugundto"/>
         <typeAlias type="com.ssafy.enjoytrip.dto.SidoDto" alias="sidodto"/>
+        <typeAlias type="com.ssafy.calendar.CalendarDto" alias = "calendardto"/>
+        <typeAlias type="com.ssafy.schedule.ScheduleDto" alias = "scheduledto"/>
     </typeAliases>
 
     <mappers>
         <mapper resource="mybatis/boardMapper.xml"/>
         <mapper resource="mybatis/memberMapper.xml"/>
         <mapper resource="mybatis/attractionMapper.xml"/>
+        <mapper resource="mybatis/calendarMapper.xml"/>
+        <mapper resource="mybatis/scheduleMapper.xml"/>
     </mappers>
 </configuration>
