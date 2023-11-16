@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
 import java.sql.SQLException;
@@ -94,13 +95,13 @@ public class RestBoardController {
         return new ResponseEntity<BoardDto>(article, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "게시글 입력", notes = "게시글에 대한 정보를 입력한다.")
+    @ApiOperation(value = "게시글 입력, 첫번째 인자 파일배열, 두번째는 dto", notes = "게시글에 대한 정보를 입력한다.")
     @PostMapping
-    public ResponseEntity<?> writeArticle(
+    public ResponseEntity<?> writeArticle(@RequestParam(value = "files", required=false) MultipartFile[] files,
             @RequestBody @ApiParam(value = "게시글 정보 입력", required = true) BoardDto boardDto) throws Exception {
         try {
             log.debug("write article= {}", boardDto);
-            boardService.writeArticle(boardDto);
+            boardService.writeArticle(files,boardDto);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } catch (Exception e) {
             return exceptionHandling(e);
@@ -141,7 +142,6 @@ public class RestBoardController {
             return exceptionHandling(e);
         }
     }
-
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();

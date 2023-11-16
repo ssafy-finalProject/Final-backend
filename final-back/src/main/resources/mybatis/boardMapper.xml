@@ -21,6 +21,9 @@
 	<insert id="writeArticle" parameterType="boardDto">
 		insert into board (user_id, subject, content, hit, register_time)
 		values (#{user_id}, #{subject}, #{content}, 0, now())
+		<selectKey resultType="int" keyProperty="article_no" keyColumn="article_no" order="AFTER">
+    	SELECT LAST_INSERT_ID()
+    	</selectKey>
 	</insert>
 	
 	<sql id="search">
@@ -98,5 +101,10 @@
 		delete from board
 		where article_no = #{article_no}
 	</delete>
+
+<insert id="fileUpload" parameterType="filedto">
+  	insert into file(article_no,originalFileName, path)
+  	values(#{article_no},#{originalFileName},#{path})
+  </insert>
 
 </mapper>

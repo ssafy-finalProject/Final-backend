@@ -4,7 +4,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.board.BoardDto;
+import com.ssafy.file.FileDto;
 
 public interface BoardRepository {
 
@@ -17,4 +20,6 @@ public interface BoardRepository {
 	
 	void modifyArticle(BoardDto boardDto) throws SQLException;
 	void deleteArticle(int articleNo) throws SQLException;
+	
+	void fileUpload(FileDto filedto);
 }

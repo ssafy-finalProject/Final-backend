@@ -1,17 +1,26 @@
 package com.ssafy.board.service;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import com.ssafy.board.BoardListDto;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.BoardDto;
 import com.ssafy.board.repository.BoardRepository;
+import com.ssafy.file.FileDto;
 import com.ssafy.util.PageNavigation;
 import com.ssafy.util.SizeConstant;
 
@@ -25,10 +34,37 @@ public class boardServiceImpl implements boardService {
 		super();
 		this.session = session;
 	}
+	
+	@Autowired
+	private ServletContext servletContext;
 
 	@Override
-	public void writeArticle(BoardDto boardDto) throws Exception {
+	public void writeArticle(MultipartFile[] files,BoardDto boardDto) throws Exception {
 		session.getMapper(BoardRepository.class).writeArticle(boardDto);
+		try {
+			//log.debug("files 업로드={}",files);
+			System.out.println("files 업로드={} "+files.length);
+			
+			String realPath = servletContext.getRealPath("/upload");
+			System.out.println(realPath);
+			String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
+			String saveFolder = realPath+File.separator+today;
+			
+			File folder = new File(saveFolder);
+			if(!folder.exists()) {
+				folder.mkdirs();
+			}
+			for (MultipartFile mfile : files) {
+				String oName = mfile.getOriginalFilename();
+				FileDto fileDto = new FileDto();
+				fileDto.setArticle_no(boardDto.getArticle_no());
+				fileDto.setOriginalFileName(oName);
+				fileDto.setPath(folder.toString());
+				mfile.transferTo(new File(folder, oName));
+				session.getMapper(BoardRepository.class).fileUpload(fileDto);
+			}
+		} catch (Exception e) {
+		}
 	}
 
 	@Override
