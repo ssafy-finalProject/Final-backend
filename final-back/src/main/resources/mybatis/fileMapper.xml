@@ -5,8 +5,8 @@
 
 <mapper namespace="com.ssafy.file.repository.fileRepository">
   
-  <insert id="fileUpload">
-  	insert into file(article_no, originalFileName, path)
-  	values(#{article_no},#{originalFileName},#{path})
+  <insert id="fileUpload" parameterType="filedto">
+  	insert into file(originalFileName, path)
+  	values(#{originalFileName},#{path})
   </insert>
 </mapper>

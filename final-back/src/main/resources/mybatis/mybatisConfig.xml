@@ -15,7 +15,7 @@
         <typeAlias type="com.ssafy.enjoytrip.dto.SidoDto" alias="sidodto"/>
         <typeAlias type="com.ssafy.calendar.CalendarDto" alias = "calendardto"/>
         <typeAlias type="com.ssafy.schedule.ScheduleDto" alias = "scheduledto"/>
-        <typeAlias type="com.ssafy.file.FileDto" alias = "fileDto"/>
+        <typeAlias type="com.ssafy.file.FileDto" alias = "filedto"/>
     </typeAliases>
 
     <mappers>
