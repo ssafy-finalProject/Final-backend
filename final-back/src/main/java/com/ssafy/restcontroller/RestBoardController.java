@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +20,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.MalformedURLException;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -152,6 +157,16 @@ public class RestBoardController {
         } catch (Exception e) {
             return exceptionHandling(e);
         }
+    }
+    
+    @ApiOperation(value = "이미지이름,경로", notes = "접근경로 생성해주기")
+    @GetMapping("{imageDirectory}/{imageName}")
+    public ResponseEntity<Resource> getImagePath(@PathVariable String imageDirectory,@PathVariable String imageName) throws MalformedURLException {
+    	Path imagePath = Paths.get(imageDirectory).resolve(imageName);
+        Resource imageResource = new UrlResource(imagePath.toUri());
+
+        return ResponseEntity.ok()
+                .body(imageResource);
     }
     
 
