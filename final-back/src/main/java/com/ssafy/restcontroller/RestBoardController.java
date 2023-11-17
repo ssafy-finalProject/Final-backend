@@ -4,6 +4,8 @@ import com.ssafy.board.BoardDto;
 import com.ssafy.board.BoardListDto;
 import com.ssafy.board.service.boardService;
 import com.ssafy.comment.service.CommentService;
+import com.ssafy.file.FileDto;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -91,6 +93,8 @@ public class RestBoardController {
                                                int articleno) throws Exception {
         BoardDto article = boardService.getArticle(articleno);
         boardService.updateHit(articleno);
+        List<FileDto> files = boardService.getImages(articleno);
+        article.setDtos(files);
 
         return new ResponseEntity<BoardDto>(article, HttpStatus.OK);
     }
@@ -105,7 +109,7 @@ public class RestBoardController {
     		@ModelAttribute BoardDto boardDto
     		) throws Exception {
         try {
-        	log.debug("이름 가보자= {}",boardDto.getUser_id());
+        	log.debug("이름 가보자= {}",boardDto);
 //        	log.debug("파일가보자= {}",boardDto.getFiles()[0].getOriginalFilename());
             log.debug("write article= {}", boardDto);
             boardService.writeArticle(boardDto.getFiles(),boardDto);
@@ -149,6 +153,7 @@ public class RestBoardController {
             return exceptionHandling(e);
         }
     }
+    
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();

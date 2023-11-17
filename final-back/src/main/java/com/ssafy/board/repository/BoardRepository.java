@@ -22,4 +22,5 @@ public interface BoardRepository {
 	void deleteArticle(int articleNo) throws SQLException;
 	
 	void fileUpload(FileDto filedto);
+	List<FileDto> getImages(int articleNo) throws SQLException;
 }

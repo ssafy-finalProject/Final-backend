@@ -20,5 +20,6 @@ public class BoardDto {
 	private int hit;
 	private String register_time;
 	private MultipartFile[] files;
+	private List<FileDto> dtos;
 //	private List<CommentDto> comments;
 }

@@ -29,4 +29,6 @@ public interface boardService {
     void modifyArticle(BoardDto boardDto) throws Exception;
 
     void deleteArticle(int articleNo) throws Exception;
+    
+    List<FileDto> getImages(int articleNo) throws SQLException;
 }

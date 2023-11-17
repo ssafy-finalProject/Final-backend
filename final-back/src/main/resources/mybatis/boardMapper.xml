@@ -14,6 +14,16 @@
 		<result column="register_time" property="register_time"/>
 	</resultMap>
 	
+	<resultMap type="filedto" id="files">
+		<result column="file_id" property="file_id"/>
+		<result column="article_no" property="article_no"/>
+		<!-- <result column="user_name" property="userName"/> -->
+		<result column="path" property="path"/>
+		<result column="originalFileName" property="originalFileName"/>
+		<result column="savedFileName" property="savedFileName"/>
+	</resultMap>
+	
+	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
 	</resultMap>
@@ -106,5 +116,12 @@
   	insert into file(article_no,originalFileName, path)
   	values(#{article_no},#{originalFileName},#{path})
   </insert>
+  
+  	<select id="getImages" parameterType="int" resultMap="files">
+		select b.file_id, b.path, b.originalFileName, b.savedFileName
+		from file b join board m on m.article_no = b.article_no
+		where b.article_no = #{m.article_no}
+	</select>
+  
 
 </mapper>

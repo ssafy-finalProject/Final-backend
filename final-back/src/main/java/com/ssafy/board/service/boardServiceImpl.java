@@ -186,5 +186,15 @@ public class boardServiceImpl implements boardService {
 		session.getMapper(BoardRepository.class).deleteArticle(articleNo);
 	}
 
+	@Override
+	public List<FileDto> getImages(int articleNo) throws SQLException {
+		// TODO Auto-generated method stub
+		List<FileDto> dto = session.getMapper(BoardRepository.class).getImages(articleNo);
+		return dto;
+	}
+
+
+	
+	
 
 }
