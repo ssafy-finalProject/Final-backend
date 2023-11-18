@@ -24,6 +24,5 @@
         <mapper resource="mybatis/attractionMapper.xml"/>
         <mapper resource="mybatis/calendarMapper.xml"/>
         <mapper resource="mybatis/scheduleMapper.xml"/>
-        <mapper resource="mybatis/fileMapper.xml"/>
     </mappers>
 </configuration>
