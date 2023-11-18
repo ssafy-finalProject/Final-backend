@@ -91,6 +91,34 @@ public class RestBoardController {
             return exceptionHandling(e);
         }
     }
+    
+    @ApiOperation(value = "내가 쓴글 검색 조회 목록", notes = "검색 관련 게시글을 반환한다.")
+    @GetMapping("/mylist")
+    public ResponseEntity<?> getMyFeedList(
+    		@RequestParam(required = false) @ApiParam(value = "아이디") String id,
+            @RequestParam(required = false) @ApiParam(value = "검색어") String word,
+            @RequestParam(required = false) @ApiParam(value = "시작 페이지") String pgno) throws SQLException {
+        try {
+            Map<String, String> map = new HashMap<>();
+            map.put("id", id);
+            map.put("word", word);
+            map.put("pgno", pgno);
+
+            log.debug("map = {}", map);
+//            List<BoardDto> list = boardService.listArticle(map);
+            BoardListDto list = boardService.listMyArticle(map);
+            log.debug("list의 값은 = {}", list);
+
+            HttpHeaders header = new HttpHeaders();
+            header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+            return ResponseEntity.ok().headers(header).body(list);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    
 
     @ApiOperation(value = "게시판 글 조회", notes = "선택된 게시글을 읽어온다.") // 댓글 추가해야함.
     @GetMapping("/{articleno}")
