@@ -1,13 +1,13 @@
 package com.ssafy.detail.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @AllArgsConstructor
 public class DetailDto {
 

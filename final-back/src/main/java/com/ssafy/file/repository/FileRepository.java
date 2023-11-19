@@ -1,13 +1,10 @@
 package com.ssafy.file.repository;
 
-import com.ssafy.file.dto.FileDto;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
-@Mapper
-public interface FileRepository {
+import com.ssafy.file.FileDto;
 
-    void saveImage(FileDto fileDto);
-
-    FileDto findByName(@Param("fileName") String fileName);
+public interface fileRepository {
+	void fileUpload(FileDto filedto);
 }
+	

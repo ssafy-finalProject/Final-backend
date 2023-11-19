@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import com.ssafy.board.BoardListDto;
+import com.ssafy.detail.repository.DetailRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
