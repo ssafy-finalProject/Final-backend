@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ssafy.file.repository.FileRepository">
-    <!-- 저장 -->
-    <insert id="saveFile" parameterType="fileDto">
-        INSERT INTO file (article_no, name, type, image_data)
-        VALUES (#{article_no}, #{name}, #{type}, #{image_data})
-    </insert>
-
-    <!-- 이름으로 조회 -->
-    <select id="findByName" parameterType="string" resultType="fileDto">
-        SELECT * FROM file WHERE name = #{fileName}
-    </select>
+<mapper namespace="com.ssafy.file.repository.fileRepository">
+  
+  <insert id="fileUpload" parameterType="filedto">
+  	insert into file(article_no,originalFileName, path)
+  	values(#{article_no},#{originalFileName},#{path})
+  </insert>
 </mapper>

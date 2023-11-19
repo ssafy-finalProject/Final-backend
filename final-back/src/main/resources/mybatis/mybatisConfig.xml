@@ -6,21 +6,23 @@
     <typeAliases>
         <typeAlias type="com.ssafy.member.MemberDto" alias="memdto"/>
         <typeAlias type="com.ssafy.board.BoardDto" alias="boardDto"/>
-        <typeAlias type="com.ssafy.detail.dto.DetailDto" alias="detailDto"/>
         <typeAlias type="com.ssafy.member.MemberDto" alias="memdto"/>
-        <typeAlias type="com.ssafy.file.dto.FileDto" alias="fileDto" />
         <typeAlias type="com.ssafy.comment.dto.CommentDto" alias="comdto"/>
         <typeAlias type="com.ssafy.enjoytrip.dto.AttractionDescriptionDto" alias="attdesdto"/>
         <typeAlias type="com.ssafy.enjoytrip.dto.AttractionDetailDto" alias="attdetaildto"/>
         <typeAlias type="com.ssafy.enjoytrip.dto.AttractionInfoDto" alias="attinfodto"/>
         <typeAlias type="com.ssafy.enjoytrip.dto.GugunDto" alias="gugundto"/>
         <typeAlias type="com.ssafy.enjoytrip.dto.SidoDto" alias="sidodto"/>
+        <typeAlias type="com.ssafy.calendar.CalendarDto" alias = "calendardto"/>
+        <typeAlias type="com.ssafy.schedule.ScheduleDto" alias = "scheduledto"/>
+        <typeAlias type="com.ssafy.file.FileDto" alias = "filedto"/>
     </typeAliases>
 
     <mappers>
         <mapper resource="mybatis/boardMapper.xml"/>
         <mapper resource="mybatis/memberMapper.xml"/>
         <mapper resource="mybatis/attractionMapper.xml"/>
-        <mapper resource="mybatis/detailMapper.xml"/>
+        <mapper resource="mybatis/calendarMapper.xml"/>
+        <mapper resource="mybatis/scheduleMapper.xml"/>
     </mappers>
 </configuration>

@@ -14,6 +14,16 @@
 		<result column="register_time" property="register_time"/>
 	</resultMap>
 	
+	<resultMap type="filedto" id="files">
+		<result column="file_id" property="file_id"/>
+		<result column="article_no" property="article_no"/>
+		<!-- <result column="user_name" property="userName"/> -->
+		<result column="path" property="path"/>
+		<result column="originalFileName" property="originalFileName"/>
+		<result column="savedFileName" property="savedFileName"/>
+	</resultMap>
+	
+	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
 	</resultMap>
@@ -21,16 +31,14 @@
 	<insert id="writeArticle" parameterType="boardDto">
 		insert into board (user_id, subject, content, hit, register_time)
 		values (#{user_id}, #{subject}, #{content}, 0, now())
+		<selectKey resultType="int" keyProperty="article_no" keyColumn="article_no" order="AFTER">
+    	SELECT LAST_INSERT_ID()
+    	</selectKey>
 	</insert>
 	
 	<sql id="search">
 		<if test="word != null and word != ''">
-			<if test="key == 'subject'">
-				and subject like concat('%', #{word}, '%')
-			</if>
-			<if test="key != 'subject'">
-				and ${key} = #{word}
-			</if>
+			and subject like concat('%', #{word}, '%')
 		</if>
 	</sql>
 
@@ -55,6 +63,23 @@
 		order by article_no desc
 		limit #{start}, #{listsize}
 	</select>
+	
+	<select id="listMyArticle" parameterType="map" resultMap="article">
+		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time
+		from board b
+		<where>
+			<if test="word != null and word != ''">
+				and subject like concat('%', #{word}, '%')
+			</if>
+			and b.user_id = #{user_id}
+		</where>
+		
+		order by article_no desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	
+	
 	
 	<select id="getTotalArticleCount" parameterType="map" resultType="int">
 		select count(b.article_no)
@@ -98,5 +123,17 @@
 		delete from board
 		where article_no = #{article_no}
 	</delete>
+
+<insert id="fileUpload" parameterType="filedto">
+  	insert into file(article_no,originalFileName, path)
+  	values(#{article_no},#{originalFileName},#{path})
+  </insert>
+  
+  	<select id="getImages" parameterType="int" resultMap="files">
+		select b.file_id, b.path, b.originalFileName, b.savedFileName
+		from file b join board m on m.article_no = b.article_no
+		where b.article_no = #{m.article_no}
+	</select>
+  
 
 </mapper>

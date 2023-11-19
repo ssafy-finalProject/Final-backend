@@ -4,18 +4,26 @@ import com.ssafy.board.BoardDto;
 import com.ssafy.board.BoardListDto;
 import com.ssafy.board.service.boardService;
 import com.ssafy.comment.service.CommentService;
+import com.ssafy.file.FileDto;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.MalformedURLException;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +91,34 @@ public class RestBoardController {
             return exceptionHandling(e);
         }
     }
+    
+    @ApiOperation(value = "내가 쓴글 검색 조회 목록", notes = "검색 관련 게시글을 반환한다.")
+    @GetMapping("/mylist")
+    public ResponseEntity<?> getMyFeedList(
+    		@RequestParam(required = false) @ApiParam(value = "아이디") String id,
+            @RequestParam(required = false) @ApiParam(value = "검색어") String word,
+            @RequestParam(required = false) @ApiParam(value = "시작 페이지") String pgno) throws SQLException {
+        try {
+            Map<String, String> map = new HashMap<>();
+            map.put("id", id);
+            map.put("word", word);
+            map.put("pgno", pgno);
+
+            log.debug("map = {}", map);
+//            List<BoardDto> list = boardService.listArticle(map);
+            BoardListDto list = boardService.listMyArticle(map);
+            log.debug("list의 값은 = {}", list);
+
+            HttpHeaders header = new HttpHeaders();
+            header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+            return ResponseEntity.ok().headers(header).body(list);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    
 
     @ApiOperation(value = "게시판 글 조회", notes = "선택된 게시글을 읽어온다.") // 댓글 추가해야함.
     @GetMapping("/{articleno}")
@@ -90,17 +126,26 @@ public class RestBoardController {
                                                int articleno) throws Exception {
         BoardDto article = boardService.getArticle(articleno);
         boardService.updateHit(articleno);
+        List<FileDto> files = boardService.getImages(articleno);
+        article.setDtos(files);
 
         return new ResponseEntity<BoardDto>(article, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "게시글 입력", notes = "게시글에 대한 정보를 입력한다.")
+    @ApiOperation(value = "게시글 입력, 첫번째 인자 파일배열, 두번째는 dto", notes = "게시글에 대한 정보를 입력한다.")
     @PostMapping
     public ResponseEntity<?> writeArticle(
-            @RequestBody @ApiParam(value = "게시글 정보 입력", required = true) BoardDto boardDto) throws Exception {
+    		//@RequestParam("user_id")int user_id,
+    		//@RequestParam(value="subject", required=false)String subject,
+    		//@RequestParam(value="content", required=false)String content,
+    		//@RequestParam(value="files", required=false)MultipartFile[] files
+    		@ModelAttribute BoardDto boardDto
+    		) throws Exception {
         try {
+        	log.debug("이름 가보자= {}",boardDto);
+//        	log.debug("파일가보자= {}",boardDto.getFiles()[0].getOriginalFilename());
             log.debug("write article= {}", boardDto);
-            boardService.writeArticle(boardDto);
+            boardService.writeArticle(boardDto.getFiles(),boardDto);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } catch (Exception e) {
             return exceptionHandling(e);
@@ -141,7 +186,17 @@ public class RestBoardController {
             return exceptionHandling(e);
         }
     }
+    
+    @ApiOperation(value = "이미지이름,경로", notes = "접근경로 생성해주기")
+    @GetMapping("{imageDirectory}/{imageName}")
+    public ResponseEntity<Resource> getImagePath(@PathVariable String imageDirectory,@PathVariable String imageName) throws MalformedURLException {
+    	Path imagePath = Paths.get(imageDirectory).resolve(imageName);
+        Resource imageResource = new UrlResource(imagePath.toUri());
 
+        return ResponseEntity.ok()
+                .body(imageResource);
+    }
+    
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
