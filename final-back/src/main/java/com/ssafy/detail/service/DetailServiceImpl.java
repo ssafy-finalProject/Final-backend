@@ -17,6 +17,7 @@ public class DetailServiceImpl implements DetailService{
 
     @Override
     public void registerDetail(DetailDto detailDto) throws SQLException {
+        // List 형태로 받은 값을 반복문을 통해서 등록함.
         detailRepository.registerDetail(detailDto);
     }
 

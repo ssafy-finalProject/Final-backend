@@ -1,6 +1,7 @@
 package com.ssafy.restcontroller;
 
 import com.ssafy.detail.dto.DetailDto;
+import com.ssafy.detail.dto.DetailKind;
 import com.ssafy.detail.service.DetailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +24,6 @@ import java.util.List;
 public class DetailController {
 
     private DetailService service;
-
     public DetailController(DetailService service) {
         this.service = service;
     }
@@ -48,6 +48,7 @@ public class DetailController {
     @PostMapping
     public ResponseEntity<?> registerDetail(@RequestBody DetailDto detailDto) throws SQLException {
         try {
+            log.debug("들어오는 DetailKind 형식 = {}", detailDto);
             service.registerDetail(detailDto);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } catch (Exception e) {

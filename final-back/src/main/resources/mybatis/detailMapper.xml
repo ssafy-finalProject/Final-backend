@@ -4,13 +4,13 @@
 
 <mapper namespace="com.ssafy.detail.repository.DetailRepository">
     <insert id="registerDetail" parameterType="detailDto">
-        INSERT INTO detail(article_no, place_name, latitude, longitude)
-        VALUES (#{article_no}, #{place_name}, #{latitude}, #{longitude})
+        INSERT INTO detail(article_no, place_name, latitude, longitude, category)
+        VALUES (#{article_no}, #{place_name}, #{latitude}, #{longitude}, #{category})
     </insert>
 
     <update id="modifyDetail" parameterType="detailDto">
         update detail
-        set place_name = #{place_name}, latitude = #{latitude}, longitude = #{longitude}
+        set place_name = #{place_name}, latitude = #{latitude}, longitude = #{longitude}, category = #{category}
         where detail_id = #{detail_id}
     </update>
     
@@ -20,13 +20,13 @@
     </delete>
     
     <select id="listDetail" parameterType="int" resultType="detailDto">
-        select detail_id, article_no, place_name, latitude, longitude
+        select detail_id, article_no, place_name, latitude, longitude, category
         from detail
         where article_no = #{article_no}
     </select>
 
     <select id="findDetail" parameterType="string" resultType="detailDto">
-        select detail_id, article_no, place_name, latitude, longitude
+        select detail_id, article_no, place_name, latitude, longitude, category
         from detail
         where place_name = #{place_name}
     </select>
