@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -55,20 +56,40 @@ public class DetailController {
             log.debug("들어오는 formData 형식 = {}", formData);
 
             // formData에서 markers, stopover, destination 키에 해당하는 값을 추출
-            Object markersJson = formData.get("markers");
-            Object stopoverJson = formData.get("stopover");
-            Object destinationJson = formData.get("destination");
+            System.out.println(formData.get("markers"));
+//            Object markersJson = formData.get("markers");
+//            Object stopoverJson = formData.get("stopover");
+//            Object destinationJson = formData.get("destination");
+//            log.debug("marker : {}", markersJson);
+//            log.debug("stopover : {}", stopoverJson);
+//            log.debug("destination : {}", destinationJson);
+            String markersJson = (String) formData.get("markers");
+            String stopoverJson = (String) formData.get("stopover");
+            String destinationJson = (String) formData.get("destination");
+
             log.debug("marker : {}", markersJson);
             log.debug("stopover : {}", stopoverJson);
             log.debug("destination : {}", destinationJson);
 
             DetailDto markers = convertJsonToDetailDto(markersJson);
-            List<DetailDto> stopover = convertJsonToDetailDtoList(stopoverJson);
+            DetailDto stopover = convertJsonToDetailDto(stopoverJson);
             DetailDto destination = convertJsonToDetailDto(destinationJson);
 
             log.debug("markers = {}", markers);
             log.debug("stopover = {}", stopover);
             log.debug("destination = {}", destination);
+
+
+//            DetailDto markers = convertJsonToDetailDto(markersJson);
+//            log.debug(convertJsonToDetailDto(markersJson).toString());
+//            DetailDto marker = convertJsonToDetailDto(markers);
+
+//            List<DetailDto> stopover = convertJsonToDetailDtoList(stopoverJson);
+//            DetailDto destination = convertJsonToDetailDto(destinationJson);
+//
+//            log.debug("marker = {}", marker);
+//            log.debug("stopover = {}", stopover);
+//            log.debug("destination = {}", destination);
 //            service.registerDetail(detailDto);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -76,9 +97,12 @@ public class DetailController {
         }
     }
 
-    private DetailDto convertJsonToDetailDto(Object json) {
-        return new ObjectMapper().convertValue(json, DetailDto.class);
+    private DetailDto convertJsonToDetailDto(String json) throws IOException {
+        return new ObjectMapper().readValue(json, DetailDto.class);
     }
+//    private DetailDto convertJsonToDetailDto(Object json) {
+//        return new ObjectMapper().convertValue(json, DetailDto.class);
+//    }
 
     private List<DetailDto> convertJsonToDetailDtoList(Object json) {
         return new ObjectMapper().convertValue(json, new TypeReference<List<DetailDto>>() {});

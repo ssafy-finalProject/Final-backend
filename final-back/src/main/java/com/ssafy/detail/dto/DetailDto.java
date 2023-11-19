@@ -4,9 +4,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class DetailDto {
