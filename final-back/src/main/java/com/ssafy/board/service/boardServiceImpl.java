@@ -71,13 +71,28 @@ public class boardServiceImpl implements boardService {
 			}
 			
 			DetailDto firstDto = new DetailDto();
-			firstDto.setArticle_no(dataToSend.getMarkers().get(0).article_no);
+			firstDto.setArticle_no(boardDto.getArticle_no());
 			firstDto.setPlace_name(dataToSend.getMarkers().get(0).place_name);
 			firstDto.setLatitude(dataToSend.getMarkers().get(0).latitude);
 			firstDto.setLongitude(dataToSend.getMarkers().get(0).longitude);
 			firstDto.setCategory(dataToSend.getMarkers().get(0).category);
-			//session.getMapper(type)
-			
+			session.getMapper(BoardRepository.class).insertDetail(firstDto);
+			for (int i = 0; i < dataToSend.getStopover().size(); i++) {
+				DetailDto secondDto = new DetailDto();
+				secondDto.setArticle_no(boardDto.getArticle_no());
+				secondDto.setPlace_name(dataToSend.getStopover().get(i).place_name);
+				secondDto.setLatitude(dataToSend.getStopover().get(i).latitude);
+				secondDto.setLongitude(dataToSend.getStopover().get(i).longitude);
+				secondDto.setCategory(dataToSend.getStopover().get(i).category);
+				session.getMapper(BoardRepository.class).insertDetail(secondDto);
+			}
+			DetailDto thirdDto = new DetailDto();
+			thirdDto.setArticle_no(boardDto.getArticle_no());
+			thirdDto.setPlace_name(dataToSend.getDestination().get(0).place_name);
+			thirdDto.setLatitude(dataToSend.getDestination().get(0).latitude);
+			thirdDto.setLongitude(dataToSend.getDestination().get(0).longitude);
+			thirdDto.setCategory(dataToSend.getDestination().get(0).category);
+			session.getMapper(BoardRepository.class).insertDetail(thirdDto);
 		} catch (Exception e) {
 		}
 	}
