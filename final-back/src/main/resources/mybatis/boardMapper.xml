@@ -23,6 +23,16 @@
 		<result column="savedFileName" property="savedFileName"/>
 	</resultMap>
 	
+	<resultMap type="detaildto" id="details">
+		<result column="detail_id" property="detail_id"/>
+		<result column="article_no" property="article_no"/>
+		<!-- <result column="user_name" property="userName"/> -->
+		<result column="place_name" property="place_name"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="category" property="category"/>
+	</resultMap>
+	
 	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
@@ -132,6 +142,19 @@
   	<select id="getImages" parameterType="int" resultMap="files">
 		select b.file_id, b.path, b.originalFileName, b.savedFileName
 		from file b join board m on m.article_no = b.article_no
+		where b.article_no = #{m.article_no}
+	</select>
+	
+	<insert id="insertDetail" parameterType="detaildto">
+  	insert into detail(article_no,place_name, latitude,longitude,category)
+  	values(#{article_no},#{place_name},#{latitude},#{longitude},#{category})
+  	</insert>
+  	
+  	
+  	
+  	<select id="getDetail" parameterType="int" resultMap="details">
+		select b.file_id, b.path, b.originalFileName, b.savedFileName
+		from detail b join board m on m.article_no = b.article_no
 		where b.article_no = #{m.article_no}
 	</select>
   

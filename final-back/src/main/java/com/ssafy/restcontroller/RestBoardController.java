@@ -155,7 +155,7 @@ public class RestBoardController {
 //			}
         	ObjectMapper objectMapper = new ObjectMapper();
         	dataToSendDto dataToSend = objectMapper.readValue(dataToSends, dataToSendDto.class);
-            log.debug("디테일 dto는 {}", dataToSend);
+//            log.debug("디테일 dto는 {}", dataToSend.getMarkers());
 //            log.debug("전환후는{}", vi);
         	BoardDto boardDto = new BoardDto();
         	boardDto.setUser_id(user_id);
@@ -164,7 +164,7 @@ public class RestBoardController {
         	boardDto.setFiles(files);
         	
         	
-            //boardService.writeArticle(boardDto.getFiles(),boardDto);
+            boardService.writeArticle(boardDto.getFiles(),boardDto,dataToSend);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } catch (Exception e) {
             return exceptionHandling(e);

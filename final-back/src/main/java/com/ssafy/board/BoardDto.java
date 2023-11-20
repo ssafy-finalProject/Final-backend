@@ -26,6 +26,7 @@ public class BoardDto {
 	private String register_time;
 	private MultipartFile[] files;
 	private List<FileDto> dtos;
+	private List<DetailDto> details;
 	
 	private dataToSendDto dataToSend;
 //	private List<CommentDto> comments;

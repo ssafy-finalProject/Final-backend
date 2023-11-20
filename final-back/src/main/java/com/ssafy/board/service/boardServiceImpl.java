@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import com.ssafy.board.BoardListDto;
+import com.ssafy.detail.dto.DetailDto;
+import com.ssafy.detail.dto.dataToSendDto;
 import com.ssafy.detail.repository.DetailRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,7 @@ public class boardServiceImpl implements boardService {
 	private ServletContext servletContext;
 
 	@Override
-	public void writeArticle(MultipartFile[] files,BoardDto boardDto) throws Exception {
+	public void writeArticle(MultipartFile[] files,BoardDto boardDto,dataToSendDto dataToSend) throws Exception {
 		session.getMapper(BoardRepository.class).writeArticle(boardDto);
 		try {
 			//log.debug("files 업로드={}",files);
@@ -67,6 +69,15 @@ public class boardServiceImpl implements boardService {
 				mfile.transferTo(new File(folder, oName));
 				session.getMapper(BoardRepository.class).fileUpload(fileDto);
 			}
+			
+			DetailDto firstDto = new DetailDto();
+			firstDto.setArticle_no(dataToSend.getMarkers().get(0).article_no);
+			firstDto.setPlace_name(dataToSend.getMarkers().get(0).place_name);
+			firstDto.setLatitude(dataToSend.getMarkers().get(0).latitude);
+			firstDto.setLongitude(dataToSend.getMarkers().get(0).longitude);
+			firstDto.setCategory(dataToSend.getMarkers().get(0).category);
+			//session.getMapper(type)
+			
 		} catch (Exception e) {
 		}
 	}
