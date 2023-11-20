@@ -24,6 +24,8 @@ public interface boardService {
     BoardListDto listArticle(Map<String, String> map) throws Exception;
     
     BoardListDto listMyArticle(Map<String,String>map) throws Exception;
+    
+    BoardListDto wholeArticle(Map<String,String>map) throws Exception;
 
     PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
 

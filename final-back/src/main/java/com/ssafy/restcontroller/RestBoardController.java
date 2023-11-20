@@ -121,6 +121,28 @@ public class RestBoardController {
         }
     }
     
+    @ApiOperation(value = "메인 검색 조회 목록", notes = "검색 관련 게시글을 반환한다.")
+    @GetMapping("/wholelist")
+    public ResponseEntity<?> getWholeList(
+            @RequestParam(required = false) @ApiParam(value = "검색어") String word) throws SQLException {
+        try {
+            Map<String, String> map = new HashMap<>();
+            map.put("word", word);
+
+            log.debug("map = {}", map);
+//            List<BoardDto> list = boardService.listArticle(map);
+            BoardListDto list = boardService.wholeArticle(map);
+            log.debug("list의 값은 = {}", list);
+
+            HttpHeaders header = new HttpHeaders();
+            header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+            return ResponseEntity.ok().headers(header).body(list);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
     
 
     @ApiOperation(value = "게시판 글 조회", notes = "선택된 게시글을 읽어온다.") // 댓글 추가해야함.

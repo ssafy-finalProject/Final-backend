@@ -257,6 +257,15 @@ public class boardServiceImpl implements boardService {
 		return boardListDto;
 	}
 
+	@Override
+	public BoardListDto wholeArticle(Map<String, String> map) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		List<BoardDto> listArticle = session.getMapper(BoardRepository.class).listArticle(param);
+		BoardListDto boardListDto = new BoardListDto();
+		boardListDto.setArticles(listArticle);
+		return boardListDto;
+	}
+
 
 	
 	

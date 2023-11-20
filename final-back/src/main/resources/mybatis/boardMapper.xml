@@ -149,8 +149,20 @@
   	insert into detail(article_no,place_name, latitude,longitude,category)
   	values(#{article_no},#{place_name},#{latitude},#{longitude},#{category})
   	</insert>
-  	
-  	
+
+	<select id="getWholeList" resultType="boardDto">
+		SELECT *
+		FROM board
+		<where>
+			<if test="place_name != null and place_name != ''">
+				AND article_no = (
+				SELECT article_no
+				FROM detail
+				WHERE place_name LIKE CONCAT('%', #{place_name}, '%')
+				)
+			</if>
+		</where>
+	</select>
   	
   	<select id="getDetail" parameterType="int" resultMap="details">
 		select b.file_id, b.path, b.originalFileName, b.savedFileName
