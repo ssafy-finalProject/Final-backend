@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.detail.dto.DetailDto;
-import com.ssafy.detail.dto.DetailKind;
+import com.ssafy.detail.dto.dataToSendDto;
 import com.ssafy.detail.service.DetailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

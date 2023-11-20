@@ -1,9 +1,12 @@
 package com.ssafy.restcontroller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.board.BoardDto;
 import com.ssafy.board.BoardListDto;
 import com.ssafy.board.service.boardService;
 import com.ssafy.comment.service.CommentService;
+import com.ssafy.detail.dto.dataToSendDto;
 import com.ssafy.file.FileDto;
 
 import io.swagger.annotations.Api;
@@ -131,21 +134,37 @@ public class RestBoardController {
 
         return new ResponseEntity<BoardDto>(article, HttpStatus.OK);
     }
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
+    
     @ApiOperation(value = "게시글 입력, 첫번째 인자 파일배열, 두번째는 dto", notes = "게시글에 대한 정보를 입력한다.")
     @PostMapping
     public ResponseEntity<?> writeArticle(
-    		//@RequestParam("user_id")int user_id,
-    		//@RequestParam(value="subject", required=false)String subject,
-    		//@RequestParam(value="content", required=false)String content,
-    		//@RequestParam(value="files", required=false)MultipartFile[] files
-    		@ModelAttribute BoardDto boardDto
-    		) throws Exception {
+    		@RequestParam("user_id")String user_id,
+    		@RequestParam(value="subject", required=false)String subject,
+    		@RequestParam(value="content", required=false)String content,
+    		@RequestParam(value="files", required=false)MultipartFile[] files,
+    		@RequestParam("dataToSend") String dataToSends
+    		)
+//    		@ModelAttribute BoardDto boardDto) 
+    		throws Exception {
         try {
-        	log.debug("이름 가보자= {}",boardDto);
-//        	log.debug("파일가보자= {}",boardDto.getFiles()[0].getOriginalFilename());
-            log.debug("write article= {}", boardDto);
-            boardService.writeArticle(boardDto.getFiles(),boardDto);
+//        	log.debug("이름 가보자= {}",boardDto);
+//        	for (int i = 0; i < boardDto.getFiles().length; i++) {
+//        		log.debug("파일 이름= {}",boardDto.getFiles()[i].getOriginalFilename());
+//			}
+        	ObjectMapper objectMapper = new ObjectMapper();
+        	dataToSendDto dataToSend = objectMapper.readValue(dataToSends, dataToSendDto.class);
+            log.debug("디테일 dto는 {}", dataToSend);
+//            log.debug("전환후는{}", vi);
+        	BoardDto boardDto = new BoardDto();
+        	boardDto.setUser_id(user_id);
+        	boardDto.setSubject(subject);
+        	boardDto.setContent(content);
+        	boardDto.setFiles(files);
+        	
+        	
+            //boardService.writeArticle(boardDto.getFiles(),boardDto);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } catch (Exception e) {
             return exceptionHandling(e);

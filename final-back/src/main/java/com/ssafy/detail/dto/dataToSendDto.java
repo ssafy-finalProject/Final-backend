@@ -10,9 +10,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DetailKind {
+public class dataToSendDto {
 
-    private DetailDto markers;
-    private List<DetailDto> stopover;
-    private DetailDto destination;
+    private markers markers;
+    private List<stopover> stopover;
+    private destination destination;
 }
