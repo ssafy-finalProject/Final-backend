@@ -16,6 +16,7 @@ public interface BoardRepository {
 	List<BoardDto> totalList() throws SQLException;
 	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
 	List<BoardDto> listMyArticle(Map<String,Object>param) throws SQLException;
+	List<BoardDto> getWholeList(Map<String,Object>param) throws SQLException;
 	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
 	BoardDto getArticle(int articleNo) throws SQLException;
 	void updateHit(int articleNo) throws SQLException;

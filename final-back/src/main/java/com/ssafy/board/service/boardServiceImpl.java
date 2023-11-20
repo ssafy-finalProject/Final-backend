@@ -258,9 +258,11 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public BoardListDto wholeArticle(Map<String, String> map) throws Exception {
+	public BoardListDto getWholeList(Map<String, String> map) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
-		List<BoardDto> listArticle = session.getMapper(BoardRepository.class).listArticle(param);
+		param.put("word", map.get("word") == null ? "" : map.get("word"));
+		log.debug("huhu{}",param.get("word"));
+		List<BoardDto> listArticle = session.getMapper(BoardRepository.class).getWholeList(param);
 		BoardListDto boardListDto = new BoardListDto();
 		boardListDto.setArticles(listArticle);
 		return boardListDto;

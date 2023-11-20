@@ -131,7 +131,7 @@ public class RestBoardController {
 
             log.debug("map = {}", map);
 //            List<BoardDto> list = boardService.listArticle(map);
-            BoardListDto list = boardService.wholeArticle(map);
+            BoardListDto list = boardService.getWholeList(map);
             log.debug("list의 값은 = {}", list);
 
             HttpHeaders header = new HttpHeaders();

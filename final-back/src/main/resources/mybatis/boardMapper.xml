@@ -150,15 +150,15 @@
   	values(#{article_no},#{place_name},#{latitude},#{longitude},#{category})
   	</insert>
 
-	<select id="getWholeList" resultType="boardDto">
+	<select id="getWholeList" parameterType="map" resultType="boardDto">
 		SELECT *
 		FROM board
 		<where>
-			<if test="place_name != null and place_name != ''">
-				AND article_no = (
+			<if test="word != null and word != ''">
+				AND article_no IN (
 				SELECT article_no
 				FROM detail
-				WHERE place_name LIKE CONCAT('%', #{place_name}, '%')
+				WHERE place_name LIKE CONCAT('%', #{word}, '%')
 				)
 			</if>
 		</where>
