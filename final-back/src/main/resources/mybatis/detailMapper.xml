@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.detail.repository.DetailRepository">
+    <insert id="registerDetail" parameterType="detailDto">
+        INSERT INTO detail(article_no, place_name, latitude, longitude, category)
+        VALUES (#{article_no}, #{place_name}, #{latitude}, #{longitude}, #{category})
+    </insert>
+
+    <update id="modifyDetail" parameterType="detailDto">
+        update detail
+        set place_name = #{place_name}, latitude = #{latitude}, longitude = #{longitude}, category = #{category}
+        where detail_id = #{detail_id}
+    </update>
+    
+    <delete id="deleteDetail" parameterType="string">
+        delete from detail
+        where detail_id = #{detail_id}
+    </delete>
+    
+    <select id="listDetail" parameterType="int" resultType="detailDto">
+        select detail_id, article_no, place_name, latitude, longitude, category
+        from detail
+        where article_no = #{article_no}
+    </select>
+
+    <select id="findDetail" parameterType="string" resultType="detailDto">
+        select detail_id, article_no, place_name, latitude, longitude, category
+        from detail
+        where place_name = #{place_name}
+    </select>
+    
+</mapper>
