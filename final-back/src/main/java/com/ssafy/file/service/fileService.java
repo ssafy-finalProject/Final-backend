@@ -4,6 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.file.FileDto;
 
-public interface fileService {
+public interface FileService {
 	void fileUpload(FileDto filedto);
 }

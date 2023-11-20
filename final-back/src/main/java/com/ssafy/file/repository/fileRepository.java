@@ -4,7 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.file.FileDto;
 
-public interface fileRepository {
+public interface FileRepository {
 	void fileUpload(FileDto filedto);
 }
-	

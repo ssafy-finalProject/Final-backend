@@ -1,15 +1,15 @@
 package com.ssafy.file.service;
 
+import com.ssafy.file.repository.FileRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.file.FileDto;
-import com.ssafy.file.repository.fileRepository;
 
 @Service
-public class fileServiceImpl implements fileService {
+public class fileServiceImpl implements FileService {
 	SqlSession session;
 	@Autowired
 	public fileServiceImpl(SqlSession session) {
@@ -20,7 +20,7 @@ public class fileServiceImpl implements fileService {
 	@Override
 	public void fileUpload(FileDto filedto) {
 		// TODO Auto-generated method stub
-		session.getMapper(fileRepository.class).fileUpload(filedto);
+		session.getMapper(FileRepository.class).fileUpload(filedto);
 	}
 
 }

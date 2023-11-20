@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,61 +52,44 @@ public class DetailController {
 
     @ApiOperation(value = "지도 정보 작성", notes = "지도 정보를 작성한다.")
     @PostMapping
-    public ResponseEntity<?> registerDetail(@RequestParam Map<String, Object> formData) throws SQLException {
+    public ResponseEntity<?> registerDetail(@RequestBody Map<String, Object> formData) throws SQLException {
         try {
-            log.debug("들어오는 formData 형식 = {}", formData);
-
-            // formData에서 markers, stopover, destination 키에 해당하는 값을 추출
-            System.out.println(formData.get("markers"));
-//            Object markersJson = formData.get("markers");
-//            Object stopoverJson = formData.get("stopover");
-//            Object destinationJson = formData.get("destination");
-//            log.debug("marker : {}", markersJson);
-//            log.debug("stopover : {}", stopoverJson);
-//            log.debug("destination : {}", destinationJson);
-            String markersJson = (String) formData.get("markers");
-            String stopoverJson = (String) formData.get("stopover");
-            String destinationJson = (String) formData.get("destination");
-
-            log.debug("marker : {}", markersJson);
-            log.debug("stopover : {}", stopoverJson);
-            log.debug("destination : {}", destinationJson);
-
-            DetailDto markers = convertJsonToDetailDto(markersJson);
-            DetailDto stopover = convertJsonToDetailDto(stopoverJson);
-            DetailDto destination = convertJsonToDetailDto(destinationJson);
-
-            log.debug("markers = {}", markers);
+            Object stopover = formData.get("stopover");
             log.debug("stopover = {}", stopover);
-            log.debug("destination = {}", destination);
-
-
-//            DetailDto markers = convertJsonToDetailDto(markersJson);
-//            log.debug(convertJsonToDetailDto(markersJson).toString());
-//            DetailDto marker = convertJsonToDetailDto(markers);
-
-//            List<DetailDto> stopover = convertJsonToDetailDtoList(stopoverJson);
-//            DetailDto destination = convertJsonToDetailDto(destinationJson);
-//
-//            log.debug("marker = {}", marker);
-//            log.debug("stopover = {}", stopover);
-//            log.debug("destination = {}", destination);
-//            service.registerDetail(detailDto);
+            List<DetailDto> detailDtos = convertToDetailDtos(formData);
+            log.debug("들어오는 formData 형식 = {}", detailDtos);
+            
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } catch (Exception e) {
             return exceptionHandling(e);
         }
     }
+    private List<DetailDto> convertToDetailDtos(Map<String, Object> formData) {
+        List<DetailDto> detailDtos = new ArrayList<>();
 
-    private DetailDto convertJsonToDetailDto(String json) throws IOException {
-        return new ObjectMapper().readValue(json, DetailDto.class);
+        for (String key : formData.keySet()) {
+            Object value = formData.get(key);
+
+            if (value instanceof List) {
+                // List 형태의 경우 처리
+                List<Map<String, Object>> listValue = (List<Map<String, Object>>) value;
+                for (Map<String, Object> item : listValue) {
+                    DetailDto detailDto = convertToDetailDto(item);
+                    detailDtos.add(detailDto);
+                }
+            } else {
+                // 단일 값인 경우 처리
+                DetailDto detailDto = convertToDetailDto(value);
+                detailDtos.add(detailDto);
+            }
+        }
+
+        return detailDtos;
     }
-//    private DetailDto convertJsonToDetailDto(Object json) {
-//        return new ObjectMapper().convertValue(json, DetailDto.class);
-//    }
 
-    private List<DetailDto> convertJsonToDetailDtoList(Object json) {
-        return new ObjectMapper().convertValue(json, new TypeReference<List<DetailDto>>() {});
+    private DetailDto convertToDetailDto(Object json) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.convertValue(json, DetailDto.class);
     }
 
     @ApiOperation(value = "지도 정보 수정", notes = "지도 정보를 수정하는데, 제대로 안되면 pathVariable로 게시글 정보를 받자.")
