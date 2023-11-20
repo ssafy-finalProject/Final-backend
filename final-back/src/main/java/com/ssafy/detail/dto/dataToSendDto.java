@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class dataToSendDto {
 
-    private markers markers;
+    private List<markers> markers;
     private List<stopover> stopover;
-    private destination destination;
+    private List<destination> destination;
 }
