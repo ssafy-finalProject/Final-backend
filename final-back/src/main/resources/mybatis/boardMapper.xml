@@ -169,6 +169,18 @@
 		from detail b join board m on m.article_no = b.article_no
 		where b.article_no = #{article_no}
 	</select>
+	
+	<insert id="insertDate" parameterType="calendardto">
+		insert into calendar (calendar_id, article_no, year,month,day,memoContent)
+		values (#{calendar_id}, #{article_no}, #{year},#{month}, #{day},#{memoContent})
+	</insert>
+
+	
+	<select id="getDateInfo"  resultType="calendardto">
+		select b.article_no, b.year, b.month, b.day, b.memoContent
+		from calendar b join board m on m.article_no = b.article_no
+		where b.article_no = #{article_no}
+	</select>
   
 
 </mapper>

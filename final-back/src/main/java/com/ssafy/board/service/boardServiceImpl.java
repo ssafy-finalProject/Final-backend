@@ -3,10 +3,12 @@ package com.ssafy.board.service;
 import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.spi.CalendarDataProvider;
 
 import javax.servlet.ServletContext;
 
@@ -23,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.BoardDto;
 import com.ssafy.board.repository.BoardRepository;
+import com.ssafy.calendar.CalendarDto;
+import com.ssafy.calendar.SendCalInformDto;
 import com.ssafy.file.FileDto;
 import com.ssafy.util.PageNavigation;
 import com.ssafy.util.SizeConstant;
@@ -45,15 +49,16 @@ public class boardServiceImpl implements boardService {
 	private ServletContext servletContext;
 
 	@Override
-	public void writeArticle(MultipartFile[] files,BoardDto boardDto,dataToSendDto dataToSend) throws Exception {
+	public void writeArticle(MultipartFile[] files,BoardDto boardDto,dataToSendDto dataToSend,SendCalInformDto sendCalInform) throws Exception {
 		session.getMapper(BoardRepository.class).writeArticle(boardDto);
 		try {
 			//log.debug("files 업로드={}",files);
 			System.out.println("files 업로드={} "+files.length);
 			
-			String realPath = "/upload";
+			String realPath = servletContext.getRealPath("/upload");
 			System.out.println(realPath);
-			String saveFolder = realPath+File.separator;
+			String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
+			String saveFolder = realPath+File.separator+today;
 			
 			File folder = new File(saveFolder);
 			if(!folder.exists()) {
@@ -92,6 +97,20 @@ public class boardServiceImpl implements boardService {
 			thirdDto.setLongitude(dataToSend.getDestination().get(0).longitude);
 			thirdDto.setCategory(dataToSend.getDestination().get(0).category);
 			session.getMapper(BoardRepository.class).insertDetail(thirdDto);
+			
+			List<CalendarDto> caldtoList= new ArrayList<CalendarDto>();
+			caldtoList = sendCalInform.getCalendarDto();
+			log.debug("뭐가 넘어오나?{}",caldtoList);
+			for(int i=0;i<caldtoList.size();i++) {
+				CalendarDto calendarDto = new CalendarDto();
+				calendarDto.setArticle_no(boardDto.getArticle_no());
+				calendarDto.setDay(caldtoList.get(i).getDay());
+				calendarDto.setMonth(caldtoList.get(i).getDay());
+				calendarDto.setYear(caldtoList.get(i).getDay());
+				calendarDto.setMemoContent(caldtoList.get(i).getMemoContent());
+				session.getMapper(BoardRepository.class).insertDate(calendarDto);
+			}
+			
 		} catch (Exception e) {
 		}
 	}
@@ -274,6 +293,14 @@ public class boardServiceImpl implements boardService {
 		param.put("article_no",map.get("article_no"));
 		List<DetailDto> listDetails = session.getMapper(BoardRepository.class).getDetails(param);
 		return listDetails;
+	}
+
+	@Override
+	public List<CalendarDto> getDateInfo(Map<String, Integer> map) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("article_no",map.get("article_no"));
+		List<CalendarDto> listCalendars = session.getMapper(BoardRepository.class).getDateInfo(param);
+		return listCalendars;
 	}
 
 
