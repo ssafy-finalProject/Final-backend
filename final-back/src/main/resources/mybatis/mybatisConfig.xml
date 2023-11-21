@@ -16,7 +16,7 @@
         <typeAlias type="com.ssafy.calendar.CalendarDto" alias = "calendardto"/>
         <typeAlias type="com.ssafy.schedule.ScheduleDto" alias = "scheduledto"/>
         <typeAlias type="com.ssafy.file.FileDto" alias = "filedto"/>
-        <typeAlias type="com.ssafy.detail.dto.DetailDto" alias = "detailDto"/>
+        <typeAlias type="com.ssafy.detail.dto.DetailDto" alias = "detaildto"/>
     </typeAliases>
 
     <mappers>
