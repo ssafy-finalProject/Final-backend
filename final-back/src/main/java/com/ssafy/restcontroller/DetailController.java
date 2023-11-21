@@ -37,7 +37,9 @@ public class DetailController {
     @ApiOperation(value = "게시글에 관련한 지도 리스트", notes = "지도에 핀을 찍은 정보들을 전부 불러온다.")
     @GetMapping("/list/{article_no}")
     public ResponseEntity<List<DetailDto>> listDetail(@PathVariable @ApiParam(value = "게시글 번호 입력", required = true) int article_no) throws SQLException {
+        log.debug("article_no = {}", article_no);
         List<DetailDto> detailList = service.listDetail(article_no);
+        log.debug("list 의 값 = {}", detailList);
         return new ResponseEntity<>(detailList, HttpStatus.OK);
     }
 
