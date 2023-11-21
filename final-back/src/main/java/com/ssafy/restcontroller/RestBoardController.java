@@ -6,6 +6,7 @@ import com.ssafy.board.BoardDto;
 import com.ssafy.board.BoardListDto;
 import com.ssafy.board.service.boardService;
 import com.ssafy.comment.service.CommentService;
+import com.ssafy.detail.dto.DetailDto;
 import com.ssafy.detail.dto.dataToSendDto;
 import com.ssafy.file.FileDto;
 
@@ -156,7 +157,6 @@ public class RestBoardController {
 
         return new ResponseEntity<BoardDto>(article, HttpStatus.OK);
     }
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     
     @ApiOperation(value = "게시글 입력, 첫번째 인자 파일배열, 두번째는 dto", notes = "게시글에 대한 정보를 입력한다.")
@@ -237,6 +237,28 @@ public class RestBoardController {
         return ResponseEntity.ok()
                 .body(imageResource);
     }
+    
+    @ApiOperation(value = "글의 detail 정보 반환", notes = "detail정보를 반환한다.")
+    @GetMapping("/getDetails/{articleno}")
+    public ResponseEntity<?> getWholeList(
+    		@PathVariable @ApiParam(value = "게시글 정보 입력", required = true) int articleno) throws SQLException {
+        try {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("article_no", articleno);
+
+            log.debug("map = {}", map);
+            List<DetailDto> list = boardService.getDetails(map);
+            log.debug("list의 값은 = {}", list);
+
+            HttpHeaders header = new HttpHeaders();
+            header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+            return ResponseEntity.ok().headers(header).body(list);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
     
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
