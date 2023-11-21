@@ -51,10 +51,9 @@ public class boardServiceImpl implements boardService {
 			//log.debug("files 업로드={}",files);
 			System.out.println("files 업로드={} "+files.length);
 			
-			String realPath = servletContext.getRealPath("/upload");
+			String realPath = "/upload";
 			System.out.println(realPath);
-			String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
-			String saveFolder = realPath+File.separator+today;
+			String saveFolder = realPath+File.separator;
 			
 			File folder = new File(saveFolder);
 			if(!folder.exists()) {
