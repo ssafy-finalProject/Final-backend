@@ -105,8 +105,8 @@ public class boardServiceImpl implements boardService {
 				CalendarDto calendarDto = new CalendarDto();
 				calendarDto.setArticle_no(boardDto.getArticle_no());
 				calendarDto.setDay(caldtoList.get(i).getDay());
-				calendarDto.setMonth(caldtoList.get(i).getDay());
-				calendarDto.setYear(caldtoList.get(i).getDay());
+				calendarDto.setMonth(caldtoList.get(i).getMonth());
+				calendarDto.setYear(caldtoList.get(i).getYear());
 				calendarDto.setMemoContent(caldtoList.get(i).getMemoContent());
 				session.getMapper(BoardRepository.class).insertDate(calendarDto);
 			}

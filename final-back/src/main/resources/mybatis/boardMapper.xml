@@ -34,13 +34,13 @@
 	</resultMap>
 	
 	<resultMap type="calendardto" id="calendars">
-		<result column="calendar_id" property="detail_id"/>
+		<result column="calendar_id" property="calendar_id"/>
 		<result column="article_no" property="article_no"/>
 		<!-- <result column="user_name" property="userName"/> -->
-		<result column="place_name" property="place_name"/>
-		<result column="latitude" property="latitude"/>
-		<result column="longitude" property="longitude"/>
-		<result column="category" property="category"/>
+		<result column="year" property="year"/>
+		<result column="month" property="month"/>
+		<result column="day" property="day"/>
+		<result column="memo" property="memo"/>
 	</resultMap>
 	
 	
@@ -187,7 +187,7 @@
 	</insert>
 
 	
-	<select id="getDateInfo"  resultType="calendardto">
+	<select id="getDateInfo" parameterType="int" resultMap="calendars">
 		select b.article_no, b.year, b.month, b.day, b.memoContent
 		from calendar b join board m on m.article_no = b.article_no
 		where b.article_no = #{article_no}

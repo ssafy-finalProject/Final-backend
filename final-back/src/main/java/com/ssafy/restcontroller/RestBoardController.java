@@ -272,6 +272,29 @@ public class RestBoardController {
         }
     }
     
+    @ApiOperation(value = "글의 달력 정보 반환", notes = "calendar 정보를 반환한다.")
+    @GetMapping("/getCalendars/{articleno}")
+    public ResponseEntity<?> getWholeCalendar(
+    		@PathVariable @ApiParam(value = "게시글 정보 입력", required = true) int articleno) throws SQLException {
+        try {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("article_no", articleno);
+
+            log.debug("map = {}", map);
+            List<CalendarDto> list = boardService.getDateInfo(map);
+            log.debug("list의 값은 = {}", list);
+
+            HttpHeaders header = new HttpHeaders();
+            header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+            return ResponseEntity.ok().headers(header).body(list);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    
+    
     
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
