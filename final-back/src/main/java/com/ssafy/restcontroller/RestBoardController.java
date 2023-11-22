@@ -18,6 +18,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,6 +30,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
@@ -46,7 +52,7 @@ public class RestBoardController {
 
     private boardService boardService;
     private CommentService commentService;
-
+    private String uploadPath = "/server/upload";
     public RestBoardController(com.ssafy.board.service.boardService boardService, CommentService commentService) {
         this.boardService = boardService;
         this.commentService = commentService;
@@ -241,14 +247,13 @@ public class RestBoardController {
         }
     }
     
-    @ApiOperation(value = "이미지이름,경로", notes = "접근경로 생성해주기")
-    @GetMapping("{imageDirectory}/{imageName}")
-    public ResponseEntity<Resource> getImagePath(@PathVariable String imageDirectory,@PathVariable String imageName) throws MalformedURLException {
-    	Path imagePath = Paths.get(imageDirectory).resolve(imageName);
-        Resource imageResource = new UrlResource(imagePath.toUri());
-
-        return ResponseEntity.ok()
-                .body(imageResource);
+    @ApiOperation(value = "날짜,이미지 풀경로", notes = "접근경로 생성해주기")
+    @GetMapping("/{date}/{imagepath}")
+    public ResponseEntity<byte[]> getImageFile(@PathVariable("imagepath") String imagepath,@PathVariable("date") String date) throws IOException {
+    	InputStream imageStream = new FileInputStream(uploadPath + "/"+date+"/"+imagepath);
+    	byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+    	imageStream.close();
+    	return new ResponseEntity<byte[]>(imageByteArray,HttpStatus.OK);
     }
     
     @ApiOperation(value = "글의 detail 정보 반환", notes = "detail정보를 반환한다.")

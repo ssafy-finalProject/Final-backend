@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.spi.CalendarDataProvider;
 
 import javax.servlet.ServletContext;
@@ -66,11 +67,13 @@ public class boardServiceImpl implements boardService {
 			}
 			for (MultipartFile mfile : files) {
 				String oName = mfile.getOriginalFilename();
+				String savedFileName = UUID.randomUUID().toString()+oName.substring(oName.lastIndexOf('.'));
 				FileDto fileDto = new FileDto();
 				fileDto.setArticle_no(boardDto.getArticle_no());
 				fileDto.setOriginalFileName(oName);
 				fileDto.setPath(folder.toString());
-				mfile.transferTo(new File(folder, oName));
+				fileDto.setSavedFileName(savedFileName);
+				mfile.transferTo(new File(folder, savedFileName));
 				session.getMapper(BoardRepository.class).fileUpload(fileDto);
 			}
 			
