@@ -33,6 +33,17 @@
 		<result column="category" property="category"/>
 	</resultMap>
 	
+	<resultMap type="calendardto" id="calendars">
+		<result column="calendar_id" property="calendar_id"/>
+		<result column="article_no" property="article_no"/>
+		<!-- <result column="user_name" property="userName"/> -->
+		<result column="year" property="year"/>
+		<result column="month" property="month"/>
+		<result column="day" property="day"/>
+		<result column="memo" property="memo"/>
+	</resultMap>
+	
+	
 	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
@@ -167,6 +178,18 @@
   	<select id="getDetails" parameterType="int" resultMap="details">
 		select b.article_no, b.place_name, b.latitude, b.longitude, b.category
 		from detail b join board m on m.article_no = b.article_no
+		where b.article_no = #{article_no}
+	</select>
+	
+	<insert id="insertDate" parameterType="calendardto">
+		insert into calendar (calendar_id, article_no, year,month,day,memoContent)
+		values (#{calendar_id}, #{article_no}, #{year},#{month}, #{day},#{memoContent})
+	</insert>
+
+	
+	<select id="getDateInfo" parameterType="int" resultMap="calendars">
+		select b.article_no, b.year, b.month, b.day, b.memoContent
+		from calendar b join board m on m.article_no = b.article_no
 		where b.article_no = #{article_no}
 	</select>
   

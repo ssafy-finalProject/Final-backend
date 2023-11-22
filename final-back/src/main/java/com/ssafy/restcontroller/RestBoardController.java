@@ -1,10 +1,14 @@
 package com.ssafy.restcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.board.BoardDto;
 import com.ssafy.board.BoardListDto;
 import com.ssafy.board.service.boardService;
+import com.ssafy.calendar.CalendarDto;
+import com.ssafy.calendar.SendCalInformDto;
 import com.ssafy.comment.service.CommentService;
 import com.ssafy.detail.dto.DetailDto;
 import com.ssafy.detail.dto.dataToSendDto;
@@ -166,7 +170,8 @@ public class RestBoardController {
     		@RequestParam(value="subject", required=false)String subject,
     		@RequestParam(value="content", required=false)String content,
     		@RequestParam(value="files", required=false)MultipartFile[] files,
-    		@RequestParam("dataToSend") String dataToSends
+    		@RequestParam("dataToSend") String dataToSends,
+    		@RequestParam("sendCalInform") String sendCalInforms
     		)
 //    		@ModelAttribute BoardDto boardDto) 
     		throws Exception {
@@ -177,8 +182,16 @@ public class RestBoardController {
 //			}
         	ObjectMapper objectMapper = new ObjectMapper();
         	dataToSendDto dataToSend = objectMapper.readValue(dataToSends, dataToSendDto.class);
+        	log.debug("dataToSend정보{}",dataToSends);
+        	log.debug("sendcal정보{}",sendCalInforms);
+        	ObjectMapper objectMapper2 = new ObjectMapper();
 //            log.debug("디테일 dto는 {}", dataToSend.getMarkers());
 //            log.debug("전환후는{}", vi);
+        	List<CalendarDto> calendarDtos = objectMapper.readValue(sendCalInforms, new TypeReference<List<CalendarDto>>() {});
+        	
+        	SendCalInformDto sendCalInform = new SendCalInformDto();
+        	sendCalInform.setCalendarDto(calendarDtos);
+        	
         	BoardDto boardDto = new BoardDto();
         	boardDto.setUser_id(user_id);
         	boardDto.setSubject(subject);
@@ -186,7 +199,7 @@ public class RestBoardController {
         	boardDto.setFiles(files);
         	
         	
-            boardService.writeArticle(boardDto.getFiles(),boardDto,dataToSend);
+            boardService.writeArticle(boardDto.getFiles(),boardDto,dataToSend,sendCalInform);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } catch (Exception e) {
             return exceptionHandling(e);
@@ -258,6 +271,29 @@ public class RestBoardController {
             return exceptionHandling(e);
         }
     }
+    
+    @ApiOperation(value = "글의 달력 정보 반환", notes = "calendar 정보를 반환한다.")
+    @GetMapping("/getCalendars/{articleno}")
+    public ResponseEntity<?> getWholeCalendar(
+    		@PathVariable @ApiParam(value = "게시글 정보 입력", required = true) int articleno) throws SQLException {
+        try {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("article_no", articleno);
+
+            log.debug("map = {}", map);
+            List<CalendarDto> list = boardService.getDateInfo(map);
+            log.debug("list의 값은 = {}", list);
+
+            HttpHeaders header = new HttpHeaders();
+            header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+            return ResponseEntity.ok().headers(header).body(list);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    
     
     
 

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.calendar.SendCalInformDto;
 import com.ssafy.comment.dto.CommentDto;
 import com.ssafy.detail.dto.DetailDto;
 import com.ssafy.detail.dto.dataToSendDto;
@@ -29,5 +30,6 @@ public class BoardDto {
 	private List<DetailDto> details;
 	
 	private dataToSendDto dataToSend;
+	private SendCalInformDto sendCalInform;
 //	private List<CommentDto> comments;
 }
