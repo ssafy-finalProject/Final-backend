@@ -56,7 +56,7 @@ public class boardServiceImpl implements boardService {
 			//log.debug("files 업로드={}",files);
 			System.out.println("files 업로드={} "+files.length);
 			
-			String realPath = servletContext.getRealPath("/upload");
+			String realPath = ("/server/upload");
 			System.out.println(realPath);
 			String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
 			String saveFolder = realPath+File.separator+today;
@@ -66,14 +66,20 @@ public class boardServiceImpl implements boardService {
 				folder.mkdirs();
 			}
 			for (MultipartFile mfile : files) {
+				System.out.println("들어와");
 				String oName = mfile.getOriginalFilename();
+				System.out.println("들어와2");
 				String savedFileName = UUID.randomUUID().toString()+oName.substring(oName.lastIndexOf('.'));
+				System.out.println("들어와3");
 				FileDto fileDto = new FileDto();
 				fileDto.setArticle_no(boardDto.getArticle_no());
 				fileDto.setOriginalFileName(oName);
 				fileDto.setPath(folder.toString());
 				fileDto.setSavedFileName(savedFileName);
+				System.out.println("들어와4");
 				mfile.transferTo(new File(folder, savedFileName));
+				System.out.println("들어와5");
+				System.out.println("지금 넣을 파일진짜이름과 경로이름과 저장된 파일 이름"+fileDto);
 				session.getMapper(BoardRepository.class).fileUpload(fileDto);
 			}
 			

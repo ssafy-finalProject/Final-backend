@@ -146,8 +146,8 @@
 	</delete>
 
 <insert id="fileUpload" parameterType="filedto">
-  	insert into file(article_no,originalFileName, path)
-  	values(#{article_no},#{originalFileName},#{path})
+  	insert into file(article_no,originalFileName,savedFileName, path)
+  	values(#{article_no},#{originalFileName},#{savedFileName},#{path})
   </insert>
   
   	<select id="getImages" parameterType="int" resultMap="files">
