@@ -33,6 +33,17 @@
 		<result column="category" property="category"/>
 	</resultMap>
 	
+	<resultMap type="calendardto" id="calendars">
+		<result column="calendar_id" property="detail_id"/>
+		<result column="article_no" property="article_no"/>
+		<!-- <result column="user_name" property="userName"/> -->
+		<result column="place_name" property="place_name"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="category" property="category"/>
+	</resultMap>
+	
+	
 	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
