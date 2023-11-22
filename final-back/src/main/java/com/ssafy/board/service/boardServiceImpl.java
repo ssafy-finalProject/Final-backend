@@ -56,7 +56,7 @@ public class boardServiceImpl implements boardService {
 			//log.debug("files 업로드={}",files);
 			System.out.println("files 업로드={} "+files.length);
 			
-			String realPath = ("/server/upload");
+			String realPath = ("c:/server/upload");
 			System.out.println(realPath);
 			String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
 			String saveFolder = realPath+File.separator+today;
@@ -74,7 +74,7 @@ public class boardServiceImpl implements boardService {
 				FileDto fileDto = new FileDto();
 				fileDto.setArticle_no(boardDto.getArticle_no());
 				fileDto.setOriginalFileName(oName);
-				fileDto.setPath(folder.toString());
+				fileDto.setPath(today);
 				fileDto.setSavedFileName(savedFileName);
 				System.out.println("들어와4");
 				mfile.transferTo(new File(folder, savedFileName));

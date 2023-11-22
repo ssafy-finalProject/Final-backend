@@ -52,7 +52,7 @@ public class RestBoardController {
 
     private boardService boardService;
     private CommentService commentService;
-    private String uploadPath = "/server/upload";
+    private String uploadPath = "c:/server/upload";
     public RestBoardController(com.ssafy.board.service.boardService boardService, CommentService commentService) {
         this.boardService = boardService;
         this.commentService = commentService;
@@ -249,7 +249,8 @@ public class RestBoardController {
     
     @ApiOperation(value = "날짜,이미지 풀경로", notes = "접근경로 생성해주기")
     @GetMapping("/{date}/{imagepath}")
-    public ResponseEntity<byte[]> getImageFile(@PathVariable("imagepath") String imagepath,@PathVariable("date") String date) throws IOException {
+    public ResponseEntity<byte[]> getImageFile(@PathVariable("date") String date,@PathVariable("imagepath") String imagepath) throws IOException {
+    	System.out.println("파일 보여주기 실행");
     	InputStream imageStream = new FileInputStream(uploadPath + "/"+date+"/"+imagepath);
     	byte[] imageByteArray = IOUtils.toByteArray(imageStream);
     	imageStream.close();
